@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | BDW Tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo"><a href="index.html"><span>BDW</span> Tech</a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container fade-in">
+                <h1>Get In <span class="text-gradient">Touch</span></h1>
+                <p>Let's talk about your next big project. Reach out to the BDW Tech team today.</p>
+            </div>
+        </section>
+
+        <section class="container" style="padding-top: 0;">
+            <div class="grid" style="gap: 4rem;">
+
+                <!-- Contact Information -->
+                <div class="fade-in">
+                    <h2>Contact <span class="text-gradient">Information</span></h2>
+                    <p style="margin-bottom: 2rem;">We're currently taking on new projects. Drop us a message using the
+                        form, or reach out directly via email or social media.</p>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--text-light);">Email Us</h4>
+                        <p>hello@bdw.tech</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--text-light);">Call Us</h4>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--text-light);">Location</h4>
+                        <p>Global Remote | HQ in San Francisco, CA</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="glass-card fade-in">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name" style="display:none;">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" style="display:none;">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Your Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" style="display:none;">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us about your project..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo"><span>BDW</span></div>
+            <p>&copy; 2026 BDW Tech. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
