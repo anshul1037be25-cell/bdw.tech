@@ -1,85 +1,115 @@
-// Mobile Menu Toggle
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-if (menuToggle && navLinks) {
-  menuToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-  });
-}
-
-// Intersection Observer for scroll animations
-const fadeElements = document.querySelectorAll('.fade-in');
-
-const observerOptions = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.15
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
-
-fadeElements.forEach(element => {
-  observer.observe(element);
-});
-
-// Contact Form Submission (Simulation)
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-  contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData.entries());
-    const btn = contactForm.querySelector('button');
-    const originalText = btn.innerText;
-
-    btn.innerText = 'Sending...';
-    btn.disabled = true;
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        contactForm.innerHTML = `<div style="text-align:center; padding: 2rem;"><h3 class="text-gradient">Message Sent!</h3><p>${result.message}</p></div>`;
-      } else {
-        alert('Something went wrong. Please try again.');
-        btn.innerText = originalText;
-        btn.disabled = false;
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      alert('Error sending message. Please ensure the server is running.');
-      btn.innerText = originalText;
-      btn.disabled = false;
-    }
-  });
-}
-
-// Set active nav link based on current page
 document.addEventListener('DOMContentLoaded', () => {
-  const currentPath = window.location.pathname;
-  const navItems = document.querySelectorAll('.nav-links a');
 
-  navItems.forEach(item => {
-    const itemPath = item.getAttribute('href');
-    if (currentPath.endsWith(itemPath) || (currentPath.endsWith('/') && itemPath === 'index.html')) {
-      item.classList.add('active');
+    // Set Copyright Year dynamically
+    const yearSpan = document.getElementById('year');
+    if(yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
     }
-  });
+
+    // --- Mobile Menu Toggle ---
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    if(hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if(hamburger) hamburger.classList.remove('active');
+            if(navMenu) navMenu.classList.remove('active');
+        });
+    });
+
+    // --- Navbar Scroll Effect ---
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (!navbar) return;
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // --- Active Link Switching Based on URL ---
+    const updateActiveLink = () => {
+        const path = window.location.pathname;
+        const links = document.querySelectorAll('.nav-menu a');
+        
+        // Remove active from all
+        links.forEach(link => {
+            // Ignore the contact button as it has its own styling unless we are on contact page
+            if(!link.classList.contains('btn-primary-sm')) {
+                link.classList.remove('active');
+            }
+        });
+        
+        let found = false;
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            if(href && href !== '#' && path.includes(href)) {
+                link.classList.add('active');
+                
+                // If it's contact, ensure btn gets active style (already hardcoded in html, but good fallback)
+                if(href === 'contact.html') {
+                    link.style.background = 'var(--text-main)';
+                    link.style.color = '#fff';
+                }
+                
+                found = true;
+            }
+        });
+
+        // Default to home if nothing matches (like root / or generic page)
+        if (!found && path.endsWith('/')) {
+            const homeLink = document.querySelector('.nav-menu a[href="index.html"]');
+            if (homeLink) homeLink.classList.add('active');
+        }
+    };
+    
+    updateActiveLink();
+
+    // --- Intersection Observer for Scroll Animations ---
+    const reveals = document.querySelectorAll('.reveal');
+
+    const revealOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Unobserve to animate only once
+            }
+        });
+    }, revealOptions);
+
+    reveals.forEach(reveal => {
+        revealObserver.observe(reveal);
+    });
+
+    // Form submission prevention (demo only)
+    const form = document.getElementById('contactForm');
+    if(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Sent Successfully!`;
+            btn.style.background = '#10b981'; // Green
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+                form.reset();
+            }, 3000);
+        });
+    }
 });
